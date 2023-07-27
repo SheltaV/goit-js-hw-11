@@ -9,6 +9,8 @@ const loadMoreBtn = document.querySelector('.load-more')
 const gallery = document.querySelector('.gallery');
 const simpleLightbox = new SimpleLightbox('.gallery a');
 
+console.log(form)
+
 form.addEventListener('submit', handleSubmit)
 
 loadMoreBtn.addEventListener('click', loadMore)
@@ -38,7 +40,11 @@ async function handleSubmit(evt) {
             gallery.insertAdjacentHTML('beforeend', createMarkup(hits));
             simpleLightbox.refresh();
             evt.target.reset()
-            loadMoreBtn.removeAttribute('hidden')
+            if (hits.length >= totalHits) {
+                loadMoreBtn.setAttribute('hidden', true)
+            } else {
+                loadMoreBtn.removeAttribute('hidden')
+            }
         }  
     }
     catch (error) {
@@ -49,9 +55,8 @@ async function handleSubmit(evt) {
 function loadMore() {
     page += 1;
     fetchImg(searchValue, page).then((data) => {
-        // console.log(data)
-        gallery.insertAdjacentHTML('beforeend', createMarkup(data))
-        console.log(gallery.insertAdjacentHTML('beforeend', createMarkup(data)))
+        gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits))
         simpleLightbox.refresh();
     }).catch(error => console.log(error))
+    
 }

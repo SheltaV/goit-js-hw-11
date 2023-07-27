@@ -1,0 +1,19 @@
+.gallery__link {
+    text-decoration: none;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+button {
+    font-family:Georgia, 'Times New Roman', Times, serif
+}
