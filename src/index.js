@@ -1,18 +1,22 @@
 import { fetchImg } from './fetch';
 import { createMarkup } from './create-markup';
 import Notiflix from 'notiflix';
-// import SimpleLightbox from "simplelightbox";
-// import "simplelightbox/dist/simple-lightbox.min.css";
+import SimpleLightbox from "simplelightbox";
+import "simplelightbox/dist/simple-lightbox.min.css";
 
 const form = document.querySelector('.search-form');
-// const input = document.querySelector('input');
+const loadMoreBtn = document.querySelector('.load-more')
 const gallery = document.querySelector('.gallery');
-// const simpleLightbox = new SimpleLightbox('.gallery a');
+const simpleLightbox = new SimpleLightbox('.gallery a');
 
 form.addEventListener('submit', handleSubmit)
 
+loadMoreBtn.addEventListener('click', loadMore)
+
 let page = 1;
-let searchValue;
+let searchValue = '';
+
+loadMoreBtn.setAttribute('hidden', true)
 
 async function handleSubmit(evt) {
     try {
@@ -31,10 +35,22 @@ async function handleSubmit(evt) {
                 return;
             }
             Notiflix.Notify.success(`Hooray! We found ${totalHits} images`)
-            gallery.innerHTML = createMarkup(hits)
+            gallery.insertAdjacentHTML('beforeend', createMarkup(hits));
+            simpleLightbox.refresh();
+            evt.target.reset()
+            loadMoreBtn.removeAttribute('hidden')
         }  
     }
     catch (error) {
         Notiflix.Report.warning("Invalid input", "Please enter a valid search query.");
     }
 }
+
+function loadMore() {
+    page += 1;
+    fetchImg(searchValue, page).then((data) => {
+            // console.log(data)
+            gallery.insertAdjacentHTML('beforeend', createMarkup(data))
+            simpleLightbox.refresh();
+        }).catch(error => console.log(error))
+    }

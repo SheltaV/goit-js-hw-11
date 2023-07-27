@@ -1,6 +1,6 @@
 export function createMarkup(imgData) {
     return imgData.map(({ webformatURL, largeImageURL, tags, likes, views, comments, downloads }) => {
-    `<a class="gallery__link" href=${largeImageURL}>
+    return `<a class="gallery__link" href=${largeImageURL}>
   <img src="${webformatURL}" alt="${tags}" width="300" loading="lazy" />
   <div class="info">
     <p class="info-item">
