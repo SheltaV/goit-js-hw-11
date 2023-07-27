@@ -48,13 +48,10 @@ async function handleSubmit(evt) {
 
 function loadMore() {
     page += 1;
-    if (searchValue >= page * 40) {
-        fetchImg(searchValue, page).then((data) => {
-            // console.log(data)
-            gallery.insertAdjacentHTML('beforeend', createMarkup(data))
-            simpleLightbox.refresh();
-        }).catch(error => console.log(error))
-    } else {
-loadMoreBtn.setAttribute('hidden', true)
-    }
-    }
+    fetchImg(searchValue, page).then((data) => {
+        // console.log(data)
+        gallery.insertAdjacentHTML('beforeend', createMarkup(data))
+        console.log(gallery.insertAdjacentHTML('beforeend', createMarkup(data)))
+        simpleLightbox.refresh();
+    }).catch(error => console.log(error))
+}
