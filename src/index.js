@@ -9,7 +9,6 @@ const loadMoreBtn = document.querySelector('.load-more')
 const gallery = document.querySelector('.gallery');
 const simpleLightbox = new SimpleLightbox('.gallery a');
 
-console.log(form)
 
 form.addEventListener('submit', handleSubmit)
 
@@ -56,7 +55,14 @@ function loadMore() {
     page += 1;
     fetchImg(searchValue, page).then((data) => {
         gallery.insertAdjacentHTML('beforeend', createMarkup(data.hits))
+        console.log(data)
         simpleLightbox.refresh();
+        if (data.hits.length <= 40) {
+            loadMoreBtn.setAttribute('hidden', true);
+            Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+            } else {
+                loadMoreBtn.removeAttribute('hidden')
+            }
     }).catch(error => console.log(error))
     
 }
